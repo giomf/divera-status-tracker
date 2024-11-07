@@ -27,7 +27,7 @@
         defaultPackage = naersk'.buildPackage {
           src = ./.;
         };
-        overlays.default = final: prev: { divera-reports = defaultPackage; };
+        overlays.default = final: prev: { divera-status-tracker = defaultPackage; };
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
             cargo

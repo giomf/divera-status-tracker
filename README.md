@@ -1,19 +1,19 @@
-# Command-Line Help for `dst`
+# Command-Line Help for `divera-status-tracker`
 
-This document contains the help content for the `dst` command-line program.
+This document contains the help content for the `divera-status-tracker` command-line program.
 
 **Command Overview:**
 
-* [`dst`↴](#dst)
-* [`dst init`↴](#dst-init)
-* [`dst update`↴](#dst-update)
-* [`dst print`↴](#dst-print)
+* [`divera-status-tracker`↴](#divera-status-tracker)
+* [`divera-status-tracker init`↴](#divera-status-tracker-init)
+* [`divera-status-tracker update`↴](#divera-status-tracker-update)
+* [`divera-status-tracker print`↴](#divera-status-tracker-print)
 
-## `dst`
+## `divera-status-tracker`
 
 Divera Status Tracker
 
-**Usage:** `dst [OPTIONS] <COMMAND>`
+**Usage:** `divera-status-tracker [OPTIONS] <COMMAND>`
 
 ###### **Subcommands:**
 
@@ -28,11 +28,11 @@ Divera Status Tracker
 
 
 
-## `dst init`
+## `divera-status-tracker init`
 
 Initialize the config
 
-**Usage:** `dst init --access-key <ACCESS_KEY>`
+**Usage:** `divera-status-tracker init --access-key <ACCESS_KEY>`
 
 ###### **Options:**
 
@@ -40,19 +40,19 @@ Initialize the config
 
 
 
-## `dst update`
+## `divera-status-tracker update`
 
 Fetch current status
 
-**Usage:** `dst update`
+**Usage:** `divera-status-tracker update`
 
 
 
-## `dst print`
+## `divera-status-tracker print`
 
 Prints the data
 
-**Usage:** `dst print`
+**Usage:** `divera-status-tracker print`
 
 
 
