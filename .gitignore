@@ -3,3 +3,4 @@ result
 config.toml
 .direnv/
 .envrc
+*.parquet

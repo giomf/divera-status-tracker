@@ -1,16 +1,19 @@
 [package]
-name = "divera-status-tracker"
+name = "dst"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 anyhow = "1.0.93"
 clap = { version = "4.5.4", features = ["derive", "cargo"] }
-divera = { path = "../divera" }
+divera = { git = "https://github.com/giomf/divera.git" }
 env_logger = "0.11.5"
 log = "0.4.22"
 serde = { version = "1.0.214", features = ["derive"] }
 toml = "0.8.19"
+polars = { version = "0.44.2", features = ["lazy", "dtype-struct", "parquet", "dtype-date", "strings"] }
+chrono = "0.4.38"
+either = "1.13.0"
 
 [build-dependencies]
 clap = { version = "4.5.4", features = ["derive", "cargo"] }

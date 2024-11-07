@@ -1,5 +1,5 @@
 {
-  description = "Divera reports flake";
+  description = "Divera status tracker flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -36,7 +36,10 @@
             rust-analyzer
             rustfmt
           ];
-          env = { };
+          env = {
+            POLARS_FMT_MAX_ROWS = 50;
+            # POLARS_FMT_MAX_COLS = 50;
+          };
         };
       }
     );

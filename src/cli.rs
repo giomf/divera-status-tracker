@@ -5,8 +5,12 @@ use clap::{Args, Parser, Subcommand};
 #[clap(propagate_version = true)]
 pub struct Cli {
     /// Config path
-    #[arg(global = true, short, long)]
+    #[arg(global = true, long)]
     pub config: Option<String>,
+
+    /// Data path
+    #[arg(global = true, long)]
+    pub data: Option<String>,
 
     #[command(subcommand)]
     pub command: Commands,
@@ -17,6 +21,12 @@ pub struct Cli {
 pub enum Commands {
     /// Initialize the config
     Init(Init),
+
+    /// Fetch current status
+    Update,
+
+    /// Prints the data
+    Print,
 }
 
 #[derive(Debug, Args)]
