@@ -19,9 +19,9 @@ in
       type = types.path;
       description = "The config path";
     };
-    data_path = mkOption {
+    data_dir = mkOption {
       type = types.path;
-      description = "The data path";
+      description = "The data directory";
     };
     timer = mkOption {
       type = types.str;
@@ -31,11 +31,11 @@ in
 
   config = mkIf cfg.enable {
     systemd.services."${service_name}" = {
-      path = [ "${pkg.divera-status-tracker}" ];
+      path = [ "${pkg}" ];
       description = "Update the status data";
       serviceConfig = {
         Type = "oneshot";
-        ExecStart = "divera-status-tracker --config ${cfg.config_path} --data ${cfg.data_path} update";
+        ExecStart = "divera-status-tracker --config ${cfg.config_path} --data-dir ${cfg.data_dir} update";
         ProtectHome = "read-only";
       };
     };

@@ -3,18 +3,22 @@ mod config;
 mod data;
 
 use anyhow::{bail, Context, Result};
-use chrono::offset::Utc;
+use chrono::{offset::Utc, Datelike};
 use clap::Parser;
 use config::Config;
 use data::Data;
 use divera;
 use env_logger;
-use std::{collections::HashMap, fmt::Display, path::Path};
+use std::{
+    collections::HashMap,
+    fmt::Display,
+    path::{Path, PathBuf},
+};
 
 use cli::{Cli, Commands};
 
 const CONFIG_PATH: &str = "./config.toml";
-const DATA_PATH: &str = "./data.parquet";
+const DATA_DIR: &str = "./";
 
 #[derive(Debug, Clone)]
 struct UserStatus {
@@ -77,8 +81,8 @@ fn main() -> Result<()> {
     let cli = Cli::parse();
     let config_path = cli.config.unwrap_or(CONFIG_PATH.to_string());
     let config_path = Path::new(&config_path);
-    let data_path = cli.data.unwrap_or(DATA_PATH.to_string());
-    let data_path = Path::new(&data_path);
+    let data_dir = cli.data_dir.unwrap_or(DATA_DIR.to_string());
+    let data_dir = Path::new(&data_dir);
 
     match cli.command {
         Commands::Init(arguments) => {
@@ -99,29 +103,49 @@ fn main() -> Result<()> {
                 divera::v2::pull_all(&config.divera.access_key).context("Failed to fetch all")?;
             let status = all.cluster.status;
             let users = UserStatus::new_user_status(&users, &status)?;
-            let date = Utc::now().naive_utc();
+            let datetime = Utc::now().naive_utc();
+            let data_path = get_data_path(&data_dir, datetime.year());
 
             let mut data = if data_path.exists() {
-                Data::from_parquet(data_path).context("Failed to read data from parquet")?
+                Data::from_parquet(&data_path).context(format!(
+                    "Failed to read data from {}",
+                    data_path.to_string_lossy().to_string()
+                ))?
             } else {
                 Data::default()
             };
 
-            data.append(date, &users).context("Failed to append data")?;
-            data.write_parquet(data_path)
+            data.append(&datetime, &users)
+                .context("Failed to append data")?;
+            data.write_parquet(&data_path)
                 .context("Failed to write data")?;
         }
-        Commands::Print => {
+        Commands::Print(arguments) => {
+            let year = if let Some(year) = arguments.year {
+                year
+            } else {
+                Utc::now().naive_utc().year()
+            };
+            let data_path = get_data_path(&data_dir, year);
+
             if !data_path.exists() {
                 bail!(
                     "Path {} does not exists",
                     data_path.to_string_lossy().to_string()
                 );
             }
-            let data = Data::from_parquet(data_path).context("Failed to read data from parquet")?;
+
+            let data = Data::from_parquet(&data_path).context(format!(
+                "Failed to read data from {}",
+                data_path.to_string_lossy().to_string()
+            ))?;
             let data = data.calculate().context("Failed to calculate data")?;
             println!("{data}");
         }
     };
     Ok(())
+}
+
+fn get_data_path(data_dir: &Path, year: i32) -> PathBuf {
+    data_dir.join(format!("{}-status.parquet", year))
 }

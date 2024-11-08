@@ -24,7 +24,7 @@ Divera Status Tracker
 ###### **Options:**
 
 * `--config <CONFIG>` — Config path
-* `--data <DATA>` — Data path
+* `--data-dir <DATA_DIR>` — Data path
 
 
 
@@ -52,7 +52,11 @@ Fetch current status
 
 Prints the data
 
-**Usage:** `divera-status-tracker print`
+**Usage:** `divera-status-tracker print [OPTIONS]`
+
+###### **Options:**
+
+* `--year <YEAR>` — The year to print
 
 
 

@@ -10,7 +10,7 @@ pub struct Cli {
 
     /// Data path
     #[arg(global = true, long)]
-    pub data: Option<String>,
+    pub data_dir: Option<String>,
 
     #[command(subcommand)]
     pub command: Commands,
@@ -26,7 +26,7 @@ pub enum Commands {
     Update,
 
     /// Prints the data
-    Print,
+    Print(Print),
 }
 
 #[derive(Debug, Args)]
@@ -34,4 +34,11 @@ pub struct Init {
     /// Accesskey for divera247
     #[arg(long)]
     pub access_key: String,
+}
+
+#[derive(Debug, Args)]
+pub struct Print {
+    /// The year to print
+    #[arg(long)]
+    pub year: Option<i32>,
 }

@@ -47,7 +47,7 @@ impl Data {
         Ok(())
     }
 
-    pub fn append(&mut self, datetime: NaiveDateTime, users: &Vec<UserStatus>) -> Result<()> {
+    pub fn append(&mut self, datetime: &NaiveDateTime, users: &Vec<UserStatus>) -> Result<()> {
         let names: Vec<String> = users
             .iter()
             .map(|user| format!("{} {}", user.firstname, user.lastname).to_string())
